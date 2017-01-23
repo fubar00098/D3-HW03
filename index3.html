@@ -29,8 +29,8 @@
         }
 
         function render() {
-            d3.selectAll("div").text(function (d, "a+1") {
-                return "a+1" + ":" + d;
+            d3.selectAll("div").text(function (d, a) {
+                return a + ":" + d;
             }).style({
                 color: function (d) {
                     if (d < 70) {
