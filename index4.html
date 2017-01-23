@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bindng</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
+</head>
+
+<body>
+
+    <input type="button" value="Click" onclick="update()">
+    <input type="button" value="Remove" onclick="remove()">
+
+    <script>
+        var arr = [85, 60, 99, 49, 77, 82];
+        var w = 900;
+        var h = 300;
+        var padding = 100;
+
+        svg();
+        bind(arr);
+        bind_t(arr);
+        render_t();
+        render();
+
+
+        function svg() {
+            d3.select("body").append("svg").attr({
+                width: w,
+                height: h,
+            })
+        }
+        //綁定圖表
+        function bind(dataSet) {
+            var selection = d3.select("svg")
+                .selectAll("rect")
+                .data(dataSet)
+            selection.enter()
+                .append("rect")
+            selection.exit().remove();
+        }
+
+        //綁定文字
+        function bind_t(dataSet) {
+            var selection = d3.select("svg")
+                .selectAll("text")
+                .data(dataSet)
+            selection.enter()
+                .append("text")
+            selection.exit().remove();
+        }
+
+        function render() {
+            d3.selectAll("rect").attr({
+                x: function (d, i) {
+                    return padding + 42 * i;
+                },
+                y: function (d) {
+                    return h - padding - d;
+                },
+                width: 40,
+                height: function (d) {
+                    return d;
+                },
+                fill: function (d) {
+                    if (d < 60) {
+                        return "red"
+                    } else {
+                        return "lightgreen";
+                    }
+                }
+            })
+
+        }
+
+
+        function render_t() {
+            d3.selectAll("text").attr({
+                x: function (d, i) {
+                    return padding + 42 * i + 10;
+                },
+                y: function (d) {
+                    return h - padding + 20;
+                },
+                "font-size": 20
+            }).text(function (d) {
+                return d;
+            })
+
+        }
+
+        function update() {
+            var num = random(40, 100);
+            arr.push(num);
+            bind(arr);
+            bind_t(arr);
+            render_t();
+            render();
+
+            console.log(b);
+        }
+
+        function remove() {
+            arr.shift();
+            bind(arr);
+            bind_t(arr);
+            render_t();
+            render();
+
+
+        }
+
+        function random(N, M) {
+            return Math.ceil(Math.random() * (M - N) + N);
+        }
+    </script>
+
+
+</body>
+
+</html>
